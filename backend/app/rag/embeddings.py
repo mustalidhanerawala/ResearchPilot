@@ -1,33 +1,62 @@
 from typing import Optional
-from sentence_transformers import SentenceTransformer
+
+from google import genai
 
 try:
-    from app.config import EMBEDDING_MODEL_NAME
+    from app.config import GEMINI_API_KEY
 except ModuleNotFoundError:
-    from backend.app.config import EMBEDDING_MODEL_NAME
-
-_model: Optional[SentenceTransformer] = None
+    from backend.app.config import GEMINI_API_KEY
 
 
-def get_embedding_model() -> SentenceTransformer:
-    """Lazy load embedding model to optimize startup time."""
-    global _model
-    if _model is None:
-        _model = SentenceTransformer(EMBEDDING_MODEL_NAME)
-    return _model
+_client: Optional[genai.Client] = None
+
+EMBEDDING_MODEL_NAME = "gemini-embedding-001"
 
 
-def generate_embeddings(texts: list[str]) -> list[list[float]]:
+
+def get_embedding_client() -> Optional[genai.Client]:
+    """Create the Gemini client once and reuse it."""
+    global _client
+
+    if _client is not None:
+        return _client
+
+    if not GEMINI_API_KEY:
+        return None
+
+    _client = genai.Client(
+        api_key=GEMINI_API_KEY
+    )
+
+    return _client
+
+
+def generate_embeddings(
+    texts: list[str]
+) -> list[list[float]]:
     """
-    Convert a list of text strings into embedding vectors.
+    Generate embeddings using Google's hosted
+    Gemini Embedding model.
     """
     if not texts:
         return []
 
-    model = get_embedding_model()
-    embeddings = model.encode(
-        texts,
-        convert_to_numpy=True
+    client = get_embedding_client()
+
+    if client is None:
+        raise RuntimeError(
+            "GEMINI_API_KEY is not configured."
+        )
+
+    result = client.models.embed_content(
+        model=EMBEDDING_MODEL_NAME,
+        contents=texts
     )
 
-    return embeddings.tolist()
+    if not result.embeddings:
+        return []
+
+    return [
+        embedding.values
+        for embedding in result.embeddings
+    ]
