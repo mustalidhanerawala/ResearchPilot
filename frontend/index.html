@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="author" content="Mustali Dhanerawala">
+    <meta name="description" content="ResearchPilot — Autonomous Document Intelligence & Multi-Agent RAG Engine engineered from scratch by Mustali Dhanerawala, Computer Engineer.">
+    <title>ResearchPilot — Autonomous Agentic Document Intelligence Platform</title>
+
+    <!-- Google Fonts: Outfit, Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Ambient Energy Glows (Contained with zero overflow) -->
+    <div class="glow-container">
+        <div class="ambient-glow glow-top-left"></div>
+        <div class="ambient-glow glow-top-right"></div>
+        <div class="ambient-glow glow-bottom-center"></div>
+    </div>
+
+    <div class="page-wrapper">
+        <!-- Agentic Header / Navigation -->
+        <header class="agent-header">
+            <div class="header-brand">
+                <div class="logo-orb">
+                    <span class="logo-spark">✦</span>
+                    <div class="logo-ring"></div>
+                </div>
+                <div class="brand-text">
+                    <div class="brand-title-row">
+                        <h1>ResearchPilot</h1>
+                        <span class="badge-agent">AGENTIC SYSTEM</span>
+                        <span class="badge-sub">AUTONOMOUS RAG</span>
+                    </div>
+                    <p class="brand-subtitle">Autonomous Multi-Agent Document Intelligence & Evidence Synthesis Engine</p>
+                </div>
+            </div>
+
+            <div class="header-right-meta">
+                <div class="header-meta-row">
+                    <!-- Engineer Profile Badge -->
+                    <div class="engineer-pill" title="Lead Architect & Developer">
+                        <span class="engineer-avatar">👨‍💻</span>
+                        <div class="engineer-meta">
+                            <span class="engineer-name">Mustali Dhanerawala</span>
+                            <span class="engineer-title">Computer Engineer</span>
+                        </div>
+                    </div>
+
+                    <!-- Theme Toggle (Parchment Gold / Burgundy Noir) -->
+                    <button type="button" class="btn-theme-toggle" id="themeToggleBtn" title="Switch Theme">
+                        <span class="theme-icon" id="themeIcon">🌙</span>
+                        <span class="theme-label" id="themeLabel">Burgundy Noir</span>
+                    </button>
+                </div>
+
+                <!-- Backend Connection Status Pill -->
+                <div class="header-status">
+                    <div class="status-pill" id="backendStatusPill" title="Agent Core Status">
+                        <span class="status-pulse-dot" id="backendPulseDot"></span>
+                        <span class="status-label" id="backendStatusLabel">Checking System...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace: Intelligent Dual-Column Grid on Laptop/Desktop, Fluid Single Column on Mobile -->
+        <main class="app-workspace">
+            
+            <!-- 1. Knowledge Base Ingestion -->
+            <section class="agent-card document-panel" id="documentSection">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <span class="panel-icon">📁</span>
+                        <div>
+                            <h2>Knowledge Base Grounding</h2>
+                            <p class="panel-subtext">Ground the autonomous engine with research papers, technical specs, or reports</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Document View (Shown after upload or when document is active) -->
+                <div class="active-doc-container" id="activeDocContainer" style="display: none;">
+                    <div class="success-banner" id="uploadSuccessBanner">
+                        <div class="success-banner-content">
+                            <span class="success-check-icon">✓</span>
+                            <div>
+                                <strong class="success-title">Document Grounded & Vectorized</strong>
+                                <p class="success-detail" id="uploadSuccessDetail">Dense vector index generated and ready for multi-agent synthesis.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="active-doc-card">
+                        <div class="active-doc-left">
+                            <div class="pdf-icon-badge">
+                                <span>PDF</span>
+                            </div>
+                            <div class="active-doc-info">
+                                <span class="active-doc-label">ACTIVE GROUND TRUTH CORPUS</span>
+                                <h3 class="active-doc-name" id="activeDocName">Document.pdf</h3>
+                                <div class="active-doc-stats" id="activeDocStats">
+                                    <span class="meta-tag" id="statPages">0 Pages</span>
+                                    <span class="meta-tag" id="statChunks">0 Chunks</span>
+                                    <span class="meta-tag status-ready">Indexed & Grounded</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="active-doc-actions">
+                            <button type="button" class="btn-secondary" id="uploadAgainBtn">
+                                <span class="btn-icon">↑</span>
+                                <span>Upload New Document</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload Mode (Shown initially or when user clicks "Upload Document") -->
+                <div class="upload-dropzone-container" id="uploadDropzoneContainer">
+                    <div class="dropzone" id="dropzone">
+                        <input
+                            type="file"
+                            id="pdfInput"
+                            accept=".pdf,application/pdf"
+                            class="file-input-hidden"
+                        >
+                        <div class="dropzone-content">
+                            <div class="dropzone-icon-orb">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                            </div>
+                            <h3 class="dropzone-title">Upload Research PDF</h3>
+                            <p class="dropzone-subtitle">Drag & drop your document here, or <span class="browse-link">browse files</span></p>
+                            <span class="dropzone-hint">PDF up to 50MB • Vectorized with SentenceTransformers</span>
+                        </div>
+                    </div>
+
+                    <!-- Selected File Bar -->
+                    <div class="selected-file-bar" id="selectedFileBar" style="display: none;">
+                        <div class="selected-file-left">
+                            <span class="selected-file-icon">📄</span>
+                            <div class="selected-file-details">
+                                <span class="selected-file-name" id="selectedFileName">filename.pdf</span>
+                                <span class="selected-file-size" id="selectedFileSize">0 KB</span>
+                            </div>
+                        </div>
+                        <div class="selected-file-actions">
+                            <button type="button" class="btn-text" id="clearFileBtn" title="Remove selected file">✕ Clear</button>
+                            <button type="button" class="btn-primary" id="uploadButton">
+                                <span class="btn-icon">⚡</span>
+                                <span>Ingest Document</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cancel Button if active document already exists -->
+                    <div class="upload-cancel-container" id="uploadCancelRow" style="display: none;">
+                        <button type="button" class="btn-ghost" id="cancelUploadModeBtn">
+                            ← Keep Current Document
+                        </button>
+                    </div>
+
+                    <!-- Ingestion Status / Loader -->
+                    <div id="uploadStatus" class="status-container" style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- 2. Research Inquiries & Reasoning Engine (Appears directly after Document Grounding on mobile) -->
+            <section class="agent-card research-panel" id="researchSection">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <span class="panel-icon">💡</span>
+                        <div>
+                            <h2>Autonomous Research Inquiries</h2>
+                            <p class="panel-subtext">Pose natural language questions to synthesize verified citations and evidence</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Box -->
+                <div class="query-box-container">
+                    <div class="query-input-wrapper">
+                        <textarea
+                            id="questionInput"
+                            rows="3"
+                            placeholder="Ask any research question grounded in your document... (e.g. 'What are the main methodology, architectural decisions, and key findings?')"
+                        ></textarea>
+                        
+                        <div class="query-actions-bar">
+                            <div class="query-tip-hint">
+                                <span class="kbd-badge">Enter ↵</span> to ask &nbsp;•&nbsp; <span class="kbd-badge">Shift + Enter</span> for newline
+                            </div>
+                            <button type="button" id="askButton" class="btn-primary btn-glow">
+                                <span class="btn-icon">✦</span>
+                                <span>Synthesize Answer</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Response / Answer Area -->
+                <div id="answer" class="answer-container">
+                    <div class="initial-ready-state">
+                        <div class="ready-state-icon">🔬</div>
+                        <h3>Agent Research Console Ready</h3>
+                        <p>Upload a research document on the left and enter your question above to execute autonomous retrieval and grounded evidence synthesis.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Architecture Pipeline Spec Card (Appears at bottom on mobile, below Knowledge Base on desktop) -->
+            <div class="agent-card pipeline-spec-card" id="pipelineSection">
+                <div class="pipeline-header">
+                    <span class="pipeline-icon">⚙️</span>
+                    <div>
+                        <h3>Agentic RAG Architecture</h3>
+                        <p class="pipeline-sub">End-to-End Pipeline Engineered from Scratch</p>
+                    </div>
+                </div>
+                <div class="pipeline-flow">
+                    <div class="flow-step">
+                        <span class="flow-num">01</span>
+                        <div class="flow-content">
+                            <strong>PDF Parsing & Semantic Chunking</strong>
+                            <span>Sliding-window extraction with boundary preservation</span>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-step">
+                        <span class="flow-num">02</span>
+                        <div class="flow-content">
+                            <strong>Dense Vector Embeddings</strong>
+                            <span>SentenceTransformers high-dimensional projection</span>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-step">
+                        <span class="flow-num">03</span>
+                        <div class="flow-content">
+                            <strong>ChromaDB Vector Retrieval</strong>
+                            <span>Cosine similarity indexing & top-k semantic search</span>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-step">
+                        <span class="flow-num">04</span>
+                        <div class="flow-content">
+                            <strong>Autonomous Evidence Synthesis</strong>
+                            <span>Context-grounded reasoning with verifiable citations</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="agent-footer">
+            <div class="footer-content">
+                <span class="footer-brand">ResearchPilot</span>
+                <span class="footer-divider">•</span>
+                <span>Engineered by <strong>Mustali Dhanerawala</strong> (Computer Engineer)</span>
+                <span class="footer-divider">•</span>
+                <span>ChromaDB Vector Store</span>
+                <span class="footer-divider">•</span>
+                <span>SentenceTransformers Dense Embeddings</span>
+                <span class="footer-divider">•</span>
+                <span>Autonomous Agentic RAG</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Marked for Markdown Parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Application Logic -->
+    <script src="js/app.js"></script>
+</body>
+</html>
