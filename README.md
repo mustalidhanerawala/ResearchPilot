@@ -1,4 +1,4 @@
-# ResearchPilot — Autonomous Agentic Document Intelligence Platform
+# ResearchPilot — Agentic Document Intelligence Platform
 
 **Engineered by Mustali Dhanerawala | Computer Engineer**
 
