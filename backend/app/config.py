@@ -63,7 +63,7 @@ EMBEDDING_MODEL_NAME = os.getenv(
 )
 
 CHROMA_COLLECTION_NAME = (
-    "researchpilot_documents"
+    "researchpilot_gemini_documents"
 )
 
 
